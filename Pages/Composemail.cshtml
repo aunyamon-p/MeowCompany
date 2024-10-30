@@ -1,0 +1,65 @@
+﻿@page
+@model MeowCompany.Pages.ComposemailModel
+@{
+    ViewData["Title"] = "Inbox-Compose";
+    <link rel="stylesheet" href="css/site.css" asp-append-version="true" />
+}
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <a asp-area="" asp-page="/Inbox"><button class="menu-item"><img src="img/mail.png" width="40"></button></a>
+            <a asp-area="" asp-page="/Composemail"><button class="menu-item"><img src="img/writemail.png" width="40"></button></a>
+        </div>
+
+        <div class="compose-form">
+            <h2>Compose New Mail</h2>
+
+            <form method="post">
+
+                @if (Model.successMessage.Length > 0)
+                {
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>@Model.successMessage</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <label for="date">Date :</label>
+                    <input type="date" id="date" name="date" value="@Model.Mail.date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="from">From :</label>
+                    <input type="email" id="from" name="frommail" placeholder="email@company.com" value="@Model.Mail.frommail" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="from">To :</label>
+                    <input type="email" id="to" name="tomail" placeholder="email@company.com" value="@Model.Mail.tomail" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject :</label>
+                    <input type="text" id="subject" name="subject" placeholder="Enter the subject" value="@Model.Mail.subject" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message :</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Enter the detail" required>@Model.Mail.message</textarea>
+                </div>
+
+                <button type="submit" class="send-btn" >Send</button>
+
+            </form>
+
+
+        </div>
+    </div>
+</body>
+

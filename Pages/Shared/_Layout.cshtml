@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Meow Company</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/site.css" asp-append-version="true" />
+</head>
+
+ <style>
+     body{
+         background-image: url(img/background.jpg);
+     }
+ </style>
+
+<body>
+    <header>
+        <nav>
+            <ul class="menu">
+                <li><a asp-area="" asp-page="/Index"><img class="logo" src="img/logo.png" width="49"></a></li>
+                <li class="home"><a asp-area="" asp-page="/Index">Home</a></li>
+                <li class="inbox"><a asp-area="" asp-page="/Inbox">Inbox</a></li>
+                <li class="role">(ตำแหน่ง)</li>
+                <img class="profile" src="img/profile.png" width="47">
+            </ul>
+        </nav>
+    </header>
+     <div>
+         <main role="main">
+             @RenderBody()
+         </main>
+     </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
