@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/site.css" asp-append-version="true" />
 </head>
 
+<!--กำหนดภาพพื้นหลัง-->
  <style>
      body{
          background-image: url(img/background.jpg);
@@ -18,9 +19,13 @@
     <header>
         <nav>
             <ul class="menu">
+
+                <!--เมนูฝั่งด้านซ้าย มี logo / Home / Inbox-->
                 <div class="left-btn">
                 <li><a asp-area="" asp-page="/Index"><img class="logo" src="img/logo.png" width="49"></a></li>
                 <li class="home"><a asp-area="" asp-page="/Index">Home</a></li>
+
+                    <!--เงื่อนไขเช็คว่าถ้ายังไม่เข้าสู่ระบบจะกดไปหน้า Inbox ไม่ได้-->
                     @if (User.Identity != null && User.Identity.IsAuthenticated)
                     {
                     <li class="inbox"><a asp-area="" asp-page="/Inbox">Inbox</a></li>
@@ -31,6 +36,7 @@
                     }
                 </div>
 
+                <!--เมนูฝั่งด้านขวา มีปุ่ม Sign in-->
                 <div class="right-btn">
                     <button class="login"><a class="login" asp-page="/Login">Sign in</a></button>
                 </div>
@@ -49,6 +55,7 @@
 
     @await RenderSectionAsync("Scripts", required: false)
 
+    <!--ฟังก์ชัน alert ที่เมื่อผู้ใช้กด Inbox โดยยังไม่ได้เข้าสู่ระบบ มันจะแจ้งตือน-->
     <script>
         function showLoginAlert() {
             alert("Please sign in first.");

@@ -6,6 +6,7 @@
 }
 
 <div class="container">
+    <!--แถบเมนูทางด้านขวาที่เป็นรูปไอคอนจดหมายกับดินสอ-->
     <div class="sidebar">
         <a asp-area="" asp-page="/Inbox">
             <button class="menu-item"><img src="img/mail.png" width="40"></button>
@@ -17,6 +18,8 @@
 
     <div class="content">
         <div class="inbox-list">
+
+            <!--ดึงค่าจากตาราง emails มาแสดง-->
             @foreach (var email in Model.listEmails)
             {
                 <div class="inbox-content">
@@ -34,6 +37,7 @@
             }
         </div>
 
+        <!--ดึงค่าจากตาราง emails มาแสดง-->
         @if (Model.selectedEmail != null)
         {
             <div class="message-detail">

@@ -30,7 +30,7 @@ namespace MeowCompany.Pages
             {
                 connection.Open();
 
-                // ดึงข้อมูลทั้งหมดมาแสดงในรายการ
+                //ดึงข้อมูลทั้งหมดในตาราง Emails มาแสดง
                 string sql = "SELECT date, frommail, tomail, subject, message FROM Emails";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -50,6 +50,7 @@ namespace MeowCompany.Pages
                     }
                 }
 
+                //เงื่อนไขเมื่อมีการกดเลือกเมลล์ ก็จะแสดงรายละเอียดเมลล์ทั้งหมดขึ้นมา
                 if (!string.IsNullOrEmpty(subject))
                 {
                     selectedSubject = subject;

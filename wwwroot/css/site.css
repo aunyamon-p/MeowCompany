@@ -1,6 +1,7 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 
+/*หน้า _Layout*/
 body {
     font-family: 'Prompt';
     font-size: 17px;
@@ -52,6 +53,7 @@ a:hover {
     text-decoration: underline;
 }
 
+/*หน้า _Layout เมนูทางด้านซ้าย*/
 .left-btn {
     margin-left: 20px;
     display: flex;
@@ -65,6 +67,7 @@ a:hover {
     transition: transform 0.3s ease;
 }
 
+/*หน้า _Layout ปุ่มทางด้านขวา*/
 .right-btn {
     display: flex;
     align-items: center;
@@ -93,8 +96,6 @@ button.login:hover {
     transition: transform 0.3s ease;
 }
 
-
-
 div.title {
     color: rgb(255, 255, 255);
     font-weight: bold;
@@ -108,6 +109,8 @@ p.meow {
     color: #e9e94c;
 }
 
+
+/*หน้า Inbox*/
 .container {
     display: flex;
     width: 100%;
@@ -116,6 +119,7 @@ p.meow {
     margin-bottom: 10px;
 }
 
+/*หน้า Inbox แถบข้างขวา*/
 .sidebar {
     display: flex;
     background-color: #e9e94c;
@@ -125,6 +129,7 @@ p.meow {
     gap: 20px;
 }
 
+/*หน้า Inbox ไอคอนรูปจดหมายกับรูปดินสอ*/
 .menu-item {
     margin-top: 10px;
     background-color: #e9e94c;
@@ -137,6 +142,7 @@ p.meow {
     transition: transform 0.3s ease;
 }
 
+/*หน้า Inbox ส่วนที่แสดง view incoming email*/
 .content {
     display: flex;
     width: 100%;
@@ -193,6 +199,7 @@ p.meow {
     margin-left: 10px;
 }
 
+/*หน้า Inbox แสดงรายละเอียดเมลล์หลังกดเลือก*/
 .message-detail {
     padding: 20px;
     width: 60%;
@@ -233,23 +240,26 @@ p.message {
     margin-left: 25px;
 }
 
-    .message-actions button, .message-actions a {
-        padding: 8px 16px;
-        margin-right: 15px;
-        cursor: pointer;
-        border: none;
-    }
+/*ปุ่ม delete กับปุ่ม back*/
+.message-actions button, .message-actions a {
+    padding: 8px 16px;
+    margin-right: 15px;
+    cursor: pointer;
+    border: none;
+}
 
 .message-actions a {
     text-decoration: none;
 }
 
+/*ปุ่ม delete*/
 button.delete {
     background-color: #d50000;
     color: #ffffff;
     border: solid #d50000 1px;
 }
 
+/*หน้า Composemail*/
 .compose-form {
     width: 70%;
     padding-left: 50px;
@@ -300,6 +310,7 @@ textarea {
     resize: none;
 }
 
+/*หน้า Composemail ปุ่ม send*/
 .compose-form .send-btn {
     margin-top: 10px;
     display: flex;
@@ -321,7 +332,7 @@ textarea {
     background-color: #003d80;
 }
 
-
+/*หน้า Login กับ Register รวมๆ*/
 .login-modal {
     display: flex;
     align-items: center;
@@ -408,6 +419,8 @@ input.form-control {
     font-size: 14px;
 }
 
+/*ปุ่ม Sign in ในหน้า Login*/
+/*ปุ่ม Add User ในหน้า Register*/
 .loginbtn, .addbtn {
     width: 100%;
     padding: 15px;

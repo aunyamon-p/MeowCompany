@@ -15,6 +15,8 @@
             </div>
 
              <form method="post">
+
+                <!--แสดง errorMessage-->
                 @if (Model.errorMessage.Length > 0)
                 {
                     <div class="row d-flex justify-content-center mt-3 mb-0 mx-3">
@@ -26,6 +28,7 @@
                         </div>
                     </div>
                 }
+                <!--ฟอร์ม input ให้กรอก username / password-->
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -38,6 +41,7 @@
                     </div>
                 </div>
 
+                <!--ปุ่ม Sign in-->
                 <div class="modal-footer">
                     <button type="submit" class="loginbtn">Sign in</button>
                 </div>

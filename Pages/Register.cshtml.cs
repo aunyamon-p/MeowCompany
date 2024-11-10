@@ -33,6 +33,7 @@ namespace MeowCompany.Pages
             User.password = Request.Form["password"];
             User.cfpassword = Request.Form["cfpassword"];
 
+            //??????? password ?????? confrim password ????
             if (User.password != User.cfpassword)
             {
                 errorMessage = "Password don't match";
@@ -40,12 +41,13 @@ namespace MeowCompany.Pages
             }
 
             try
-            {
+            {   
                 string connectionString = "Server = tcp:meowgroup.database.windows.net,1433; Initial Catalog = MeowCompany; Persist Security Info = False; User ID = meow; Password =Meemee-12; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
 
+                    //??????? username ???????
                     string checkUsernameSql = "SELECT COUNT(*) FROM Users WHERE username = @username";
                     using (SqlCommand checkCommand = new SqlCommand(checkUsernameSql, connection))
                     {
@@ -59,6 +61,7 @@ namespace MeowCompany.Pages
                         }
                     }
 
+                    //??????????????????? Users
                     string sql = "INSERT INTO Users (role, email, username, password) VALUES (@role, @email, @username, @password);";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {

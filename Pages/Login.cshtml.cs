@@ -27,6 +27,7 @@ namespace MeowCompany.Pages
             User.username = Request.Form["username"];
             User.password = Request.Form["password"];
 
+            //เช็คว่ากรอกข้อมูลครบทุกช่องมั้ย
             if (string.IsNullOrEmpty(User.username) || string.IsNullOrEmpty(User.password))
             {
                 errorMessage = "Please fill all the fields.";
@@ -49,9 +50,10 @@ namespace MeowCompany.Pages
 
                         int userExists = (int)command.ExecuteScalar();
 
+                        //เงื่อนไขไว้เช็คว่าเข้าสู่ระบบสำเร็จมั้ย
                         if (userExists > 0)
                         {
-                            // สร้าง ClaimsPrincipal สำหรับการตรวจสอบสิทธิ์
+
                             var claims = new List<Claim>
                             {
                                 new Claim(ClaimTypes.Name, User.username)
