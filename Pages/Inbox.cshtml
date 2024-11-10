@@ -5,50 +5,51 @@
     <link rel="stylesheet" href="css/site.css" asp-append-version="true" />
 }
 
-
-<body>
 <div class="container">
     <div class="sidebar">
-        <a asp-area="" asp-page="/Inbox"><button class="menu-item"><img src="img/mail.png" width="40"></button></a>
-        <a asp-area="" asp-page="/Composemail"><button class="menu-item"><img src="img/writemail.png" width="40"></button></a>
+        <a asp-area="" asp-page="/Inbox">
+            <button class="menu-item"><img src="img/mail.png" width="40"></button>
+        </a>
+        <a asp-area="" asp-page="/Composemail">
+            <button class="menu-item"><img src="img/writemail.png" width="40"></button>
+        </a>
     </div>
 
-    <!--View incoming email-->
     <div class="content">
         <div class="inbox-list">
-            <div class="message">
-                <img src="img/profile.png" alt="User" class="avatar">
-                <div class="message-content">
-                    <p><strong>SaleD1</strong> <span>23/10/2567</span> <span>Unread</span></p>
-                    <p>รายการสินค้าที่ต้องจัดส่ง</p>
+            @foreach (var email in Model.listEmails)
+            {
+                <div class="inbox-content">
+
+                <a href="?subject=@Uri.EscapeDataString(email.subject)" class="message-link">
+                    <div class="message">
+                        <img src="img/profile.png" alt="User" class="avatar" />
+                        <div class="message-content">
+                            <h3><strong>@email.frommail</strong> <span>@email.date</span> <span>Unread</span></h3>
+                            <p class="subject">@email.subject</p>
+                        </div>
+                    </div>
+                </a>
+               </div>
+            }
+        </div>
+
+        @if (Model.selectedEmail != null)
+        {
+            <div class="message-detail">
+                <h2>@Model.selectedEmail.subject</h2>
+                <div class="message-info">
+                    <img src="img/profile.png" class="avatar" />
+                    <h3><strong>@Model.selectedEmail.frommail</strong></h3>
+                    <p class="date">@Model.selectedEmail.date</p>
+                </div>
+                <p class="message">@Model.selectedEmail.message</p>
+                <br>
+                <div class="message-actions">
+                    <button  class="backbtn"><a href="/Inbox" class="btn btn-secondary">Back</a></button>
+                    <button class="btn btn-danger">Delete</button>
                 </div>
             </div>
-        </div>
-
-        <!-- Read Email -->
-        <div class="message-detail">
-            <h2>รายการสินค้าที่ต้องจัดส่ง</h2>
-            <div class="message-info">
-                <img src="img/profile.png" class="avatar">
-
-                <p><strong>SaleD1</strong></p>
-            </div>
-            <p>
-                รายการส่งของ<br>
-                2SS006-ไทยพรีเมียมไพพ์(สมุทรสาคร)<br>
-                6120 SIAVLIES SIZE: 152 x 299 MM. GRIT 4923 GREEN GENERAL PURPOSE 1500 PCS<br><br>
-                มัลติไฟเบอร์(ปทุมธานี) กล่องจะมาส่งวันที่ 02/09/2024 พี่เปิ้ลเบิกด่วนให้ และแปรรูปจะแพ็คเสร็จวันนี้ ส่งของวันที่ 03/09/2024 ค่ะ<br>
-                CONVERTING STRIP SIZE: 95 X 400 MM. P80   4000 PCS<br>
-                CONVERTING STRIP SIZE: 95 X 400 MM. P150  3000 PCS<br><br>
-                ขอบคุณค่ะ
-            </p><br>
-
-            <div class="message-actions">
-                <button class="back">Back</button>
-                <button class="delete">Delete</button>
-            </div>
-        </div>
+        }
     </div>
 </div>
-</body>
-

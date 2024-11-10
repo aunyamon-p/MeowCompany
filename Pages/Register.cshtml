@@ -1,0 +1,75 @@
+﻿@page
+@model MeowCompany.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    <link rel="stylesheet" href="css/site.css" asp-append-version="true" />
+}
+
+<div class="register-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add user in Meow Company</h5>
+            </div>
+
+            <form method="post">
+                @if (Model.successMessage.Length > 0)
+                {
+                    <div class="row d-flex justify-content-center mt-3 mb-0 mx-3">
+                        <div class="col-sm-12">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>@Model.successMessage</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @if (Model.errorMessage.Length > 0)
+                {
+                    <div class="row d-flex justify-content-center mt-3 mb-0 mx-3">
+                        <div class="col-sm-12">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>@Model.errorMessage</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <input type="text" id="role" name="role" class="form-control" value="@Model.User.role" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" value="@Model.User.email" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" class="form-control" value="@Model.User.username" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" value="@Model.User.password" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cfpassword">ConfirmPw</label>
+                        <input type="password" id="cfpassword" name="cfpassword" class="form-control" value="@Model.User.cfpassword" required />
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="addbtn">Add user</button>
+                </div>
+                <p class="login">Already have an acoount <a asp-area="" asp-page="/Login">Sign in</a></p>
+            </form>
+        </div>
+    </div>
+</div>

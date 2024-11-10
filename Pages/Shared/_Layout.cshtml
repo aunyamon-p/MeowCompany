@@ -18,11 +18,22 @@
     <header>
         <nav>
             <ul class="menu">
+                <div class="left-btn">
                 <li><a asp-area="" asp-page="/Index"><img class="logo" src="img/logo.png" width="49"></a></li>
                 <li class="home"><a asp-area="" asp-page="/Index">Home</a></li>
-                <li class="inbox"><a asp-area="" asp-page="/Inbox">Inbox</a></li>
-                <li class="role">(ตำแหน่ง)</li>
-                <img class="profile" src="img/profile.png" width="47">
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                    <li class="inbox"><a asp-area="" asp-page="/Inbox">Inbox</a></li>
+                    }
+                    else
+                    {
+                    <li class="inbox"><a href="javascript:void(0)" onclick="showLoginAlert()">Inbox</a></li>
+                    }
+                </div>
+
+                <div class="right-btn">
+                    <button class="login"><a class="login" asp-page="/Login">Sign in</a></button>
+                </div>
             </ul>
         </nav>
     </header>
@@ -37,5 +48,12 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        function showLoginAlert() {
+            alert("Please sign in first.");
+        }
+    </script>
+
 </body>
 </html>

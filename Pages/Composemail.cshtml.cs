@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
 
@@ -23,7 +24,7 @@ namespace MeowCompany.Pages
         {
         }
 
-        public IActionResult OnPost() // เปลี่ยนเป็น IActionResult
+        public IActionResult OnPost()
         {
             Mail.date = Request.Form["date"];
             Mail.frommail = Request.Form["frommail"];
@@ -33,11 +34,11 @@ namespace MeowCompany.Pages
 
             try
             {
-                string connectionString = "Server=tcp:meowmeow.database.windows.net,1433;Initial Catalog=MeowCompany;Persist Security Info=False;User ID=meow;Password=Memee_123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
+                string connectionString = "Server = tcp:meowgroup.database.windows.net,1433; Initial Catalog = MeowCompany; Persist Security Info = False; User ID = meow; Password =Meemee-12; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string sql = "INSERT INTO Email (date, frommail, tomail, subject, message) VALUES (@date, @frommail, @tomail, @subject, @message);";
+                    string sql = "INSERT INTO Emails (date, frommail, tomail, subject, message) VALUES (@date, @frommail, @tomail, @subject, @message);";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@date", Mail.date);
