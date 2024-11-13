@@ -28,7 +28,7 @@
                     <div class="message">
                         <img src="img/profile.png" alt="User" class="avatar" />
                         <div class="message-content">
-                            <h3><strong>@email.frommail</strong> <span>@email.date</span> <span>Unread</span></h3>
+                                <h3><strong>@email.frommail</strong> <span>@email.date</span> <span>@(email.IsRead ? "Read" : "Unread")</span></h3>
                             <p class="subject">@email.subject</p>
                         </div>
                     </div>

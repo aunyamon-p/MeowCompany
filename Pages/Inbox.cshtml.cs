@@ -20,6 +20,7 @@ namespace MeowCompany.Pages
             public string tomail { get; set; }
             public string subject { get; set; }
             public string message { get; set; }
+            public bool IsRead { get; set; }
         }
 
         public void OnGet(string subject = "")
@@ -31,7 +32,7 @@ namespace MeowCompany.Pages
                 connection.Open();
 
                 //ดึงข้อมูลทั้งหมดในตาราง Emails มาแสดง
-                string sql = "SELECT date, frommail, tomail, subject, message FROM Emails";
+                string sql = "SELECT date, frommail, tomail, subject, message, IsRead FROM Emails";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -44,7 +45,8 @@ namespace MeowCompany.Pages
                                 frommail = reader.GetString(1),
                                 tomail = reader.GetString(2),
                                 subject = reader.GetString(3),
-                                message = reader.GetString(4)
+                                message = reader.GetString(4),
+                                IsRead = !reader.IsDBNull(5) && reader.GetFieldValue<bool?>(5) == true
                             });
                         }
                     }
@@ -54,7 +56,7 @@ namespace MeowCompany.Pages
                 if (!string.IsNullOrEmpty(subject))
                 {
                     selectedSubject = subject;
-                    sql = "SELECT date, frommail, tomail, subject, message FROM Emails WHERE subject = @subject";
+                    sql = "SELECT date, frommail, tomail, subject, message, IsRead FROM Emails WHERE subject = @subject";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@subject", subject);
@@ -68,11 +70,20 @@ namespace MeowCompany.Pages
                                     frommail = reader.GetString(1),
                                     tomail = reader.GetString(2),
                                     subject = reader.GetString(3),
-                                    message = reader.GetString(4)
+                                    message = reader.GetString(4),
+                                    IsRead = reader.GetBoolean(5)
                                 };
                             }
                         }
                     }
+                }
+
+                //อัปเดตสถานะเมื่อมีการอ่านเมลล์
+                sql = "UPDATE Emails SET IsRead = 1 WHERE subject = @subject";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@subject", subject);
+                    command.ExecuteNonQuery();
                 }
             }
         }
