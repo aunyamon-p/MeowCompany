@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
+using System.Security.Claims;
 
 namespace MeowCompany.Pages
 {
@@ -22,12 +23,13 @@ namespace MeowCompany.Pages
 
         public void OnGet()
         {
+            Mail.frommail = User.FindFirst(ClaimTypes.Email)?.Value;
         }
 
         public IActionResult OnPost()
         {
             Mail.date = Request.Form["date"];
-            Mail.frommail = Request.Form["frommail"];
+            Mail.frommail = User.FindFirst(ClaimTypes.Email)?.Value;
             Mail.tomail = Request.Form["tomail"];
             Mail.subject = Request.Form["subject"];
             Mail.message = Request.Form["message"];

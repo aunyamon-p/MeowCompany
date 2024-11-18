@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace MeowCompany.Pages
 {
@@ -15,6 +16,7 @@ namespace MeowCompany.Pages
 
         public class MailData
         {
+            public int ID { get; set; }
             public string date { get; set; }
             public string frommail { get; set; }
             public string tomail { get; set; }
@@ -26,37 +28,58 @@ namespace MeowCompany.Pages
         public void OnGet(string subject = "")
         {
             string connectionString = "Server=tcp:meowgroup.database.windows.net,1433;Initial Catalog=MeowCompany;Persist Security Info=False;User ID=meow;Password=Meemee-12;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            string currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            if (string.IsNullOrEmpty(currentUserEmail))
+            {
+                return;
+            }
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                //ดึงข้อมูลทั้งหมดในตาราง Emails มาแสดง
-                string sql = "SELECT date, frommail, tomail, subject, message, IsRead FROM Emails";
+                string sql = "SELECT date, frommail, tomail, subject, message, IsRead, ID FROM Emails WHERE tomail = @currentUser AND frommail <> @currentUser";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
+                    command.Parameters.AddWithValue("@currentUser", currentUserEmail);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
+                            string dateString = reader.IsDBNull(0) ? null : reader.GetDateTime(0).ToString("dd/MM/yyyy");
+
+                            string formattedDate = dateString;
+
+                            // Try parsing if it's a datetime type
+                            if (!string.IsNullOrEmpty(dateString))
+                            {
+                                DateTime dateValue;
+                                if (DateTime.TryParse(dateString, out dateValue))
+                                {
+                                    formattedDate = dateValue.ToString("dd/MM/yyyy");
+                                }
+                            }
+
                             listEmails.Add(new MailData
                             {
-                                date = reader.GetDateTime(0).ToString("dd/MM/yyyy"),
+                                date = formattedDate,
                                 frommail = reader.GetString(1),
                                 tomail = reader.GetString(2),
                                 subject = reader.GetString(3),
                                 message = reader.GetString(4),
-                                IsRead = !reader.IsDBNull(5) && reader.GetFieldValue<bool?>(5) == true
+                                IsRead = !reader.IsDBNull(5) && reader.GetBoolean(5),
+                                ID = reader.GetInt32(6)
                             });
                         }
                     }
                 }
 
-                //เงื่อนไขเมื่อมีการกดเลือกเมลล์ ก็จะแสดงรายละเอียดเมลล์ทั้งหมดขึ้นมา
+                // Handle selected email details
                 if (!string.IsNullOrEmpty(subject))
                 {
                     selectedSubject = subject;
-                    sql = "SELECT date, frommail, tomail, subject, message, IsRead FROM Emails WHERE subject = @subject";
+                    sql = "SELECT date, frommail, tomail, subject, message, IsRead, ID FROM Emails WHERE subject = @subject";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@subject", subject);
@@ -64,21 +87,36 @@ namespace MeowCompany.Pages
                         {
                             if (reader.Read())
                             {
+                                string dateString = reader.IsDBNull(0) ? null : reader.GetDateTime(0).ToString("dd/MM/yyyy");
+
+                                string formattedDate = dateString;
+
+                                // Try parsing if it's a datetime type
+                                if (!string.IsNullOrEmpty(dateString))
+                                {
+                                    DateTime dateValue;
+                                    if (DateTime.TryParse(dateString, out dateValue))
+                                    {
+                                        formattedDate = dateValue.ToString("dd/MM/yyyy");
+                                    }
+                                }
+
                                 selectedEmail = new MailData
                                 {
-                                    date = reader.GetDateTime(0).ToString("dd/MM/yyyy"),
+                                    date = formattedDate,
                                     frommail = reader.GetString(1),
                                     tomail = reader.GetString(2),
                                     subject = reader.GetString(3),
                                     message = reader.GetString(4),
-                                    IsRead = reader.GetBoolean(5)
+                                    IsRead = reader.GetBoolean(5),
+                                    ID = reader.GetInt32(6)
                                 };
                             }
                         }
                     }
                 }
 
-                //อัปเดตสถานะเมื่อมีการอ่านเมลล์
+                // Update email read status
                 sql = "UPDATE Emails SET IsRead = 1 WHERE subject = @subject";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -87,5 +125,27 @@ namespace MeowCompany.Pages
                 }
             }
         }
+
+        public void OnPostDelete(int id)
+        {
+            string connectionString = "Server=tcp:meowgroup.database.windows.net,1433;Initial Catalog=MeowCompany;Persist Security Info=False;User ID=meow;Password=Meemee-12;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Delete email by ID
+                string sql = "DELETE FROM Emails WHERE ID = @id";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            // Refresh email list after deletion
+            OnGet();
+        }
+
     }
 }

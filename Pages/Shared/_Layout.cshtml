@@ -9,11 +9,11 @@
 </head>
 
 <!--กำหนดภาพพื้นหลัง-->
- <style>
-     body{
-         background-image: url(img/background.jpg);
-     }
- </style>
+<style>
+    body {
+        background-image: url(img/background.jpg);
+    }
+</style>
 
 <body>
     <header>
@@ -25,7 +25,7 @@
                 <li><a asp-area="" asp-page="/Index"><img class="logo" src="img/logo.png" width="49"></a></li>
                 <li class="home"><a asp-area="" asp-page="/Index">Home</a></li>
 
-                    <!--เงื่อนไขเช็คว่าถ้ายังไม่เข้าสู่ระบบจะกดไปหน้า Inbox ไม่ได้-->
+                <!--เงื่อนไขเช็คว่าถ้ายังไม่เข้าสู่ระบบจะกดไปหน้า Inbox ไม่ได้-->
                     @if (User.Identity != null && User.Identity.IsAuthenticated)
                     {
                     <li class="inbox"><a asp-area="" asp-page="/Inbox">Inbox</a></li>
@@ -36,18 +36,28 @@
                     }
                 </div>
 
-                <!--เมนูฝั่งด้านขวา มีปุ่ม Sign in-->
                 <div class="right-btn">
-                    <button class="login"><a class="login" asp-page="/Login">Sign in</a></button>
+                    @if (User.Identity?.IsAuthenticated ?? false) // ตรวจสอบสถานะการล็อกอิน
+                    {
+                        <!-- แก้ไขฟอร์ม Log out ให้เปลี่ยนหน้าไปที่หน้า Log in หลังจากออกจากระบบ -->
+                        <form method="post" asp-page-handler="SignOut" asp-page="/Login">
+                            <button type="submit" class="btn btn-danger">Sign out</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <!-- เมนูฝั่งขวามีปุ่ม Sign in -->
+                        <button class="login"><a class="login" asp-page="/Login">Sign in</a></button>
+                    }
                 </div>
             </ul>
         </nav>
     </header>
-     <div>
-         <main role="main">
-             @RenderBody()
-         </main>
-     </div>
+    <div>
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

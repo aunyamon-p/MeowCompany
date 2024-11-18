@@ -1,13 +1,11 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
-
 
 namespace MeowCompany.Pages
 {
     public class RegisterModel : PageModel
     {
-
         public class UserData
         {
             public string role { get; set; }
@@ -33,21 +31,33 @@ namespace MeowCompany.Pages
             User.password = Request.Form["password"];
             User.cfpassword = Request.Form["cfpassword"];
 
-            //??????? password ?????? confrim password ????
+            // ตรวจสอบการกรอกข้อมูล
+            if (string.IsNullOrEmpty(User.role) ||
+                string.IsNullOrEmpty(User.email) ||
+                string.IsNullOrEmpty(User.username) ||
+                string.IsNullOrEmpty(User.password) ||
+                string.IsNullOrEmpty(User.cfpassword))
+            {
+                errorMessage = "Please fill all the fields.";
+                return Page();
+            }
+
+            // ตรวจสอบว่ารหัสผ่านตรงกันหรือไม่
             if (User.password != User.cfpassword)
             {
-                errorMessage = "Password don't match";
+                errorMessage = "Passwords do not match.";
                 return Page();
             }
 
             try
-            {   
-                string connectionString = "Server = tcp:meowgroup.database.windows.net,1433; Initial Catalog = MeowCompany; Persist Security Info = False; User ID = meow; Password =Meemee-12; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30";
+            {
+                string connectionString = "Server=tcp:meowgroup.database.windows.net,1433;Initial Catalog=MeowCompany;Persist Security Info=False;User ID=meow;Password=Meemee-12;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
+
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
 
-                    //??????? username ???????
+                    // ตรวจสอบว่า username ซ้ำหรือไม่
                     string checkUsernameSql = "SELECT COUNT(*) FROM Users WHERE username = @username";
                     using (SqlCommand checkCommand = new SqlCommand(checkUsernameSql, connection))
                     {
@@ -61,15 +71,32 @@ namespace MeowCompany.Pages
                         }
                     }
 
-                    //??????????????????? Users
-                    string sql = "INSERT INTO Users (role, email, username, password) VALUES (@role, @email, @username, @password);";
+
+                    // ตรวจสอบว่า email ซ้ำหรือไม่
+                    string checkemailSql = "SELECT COUNT(*) FROM Users WHERE email = @email";
+                    using (SqlCommand checkEmailCommand = new SqlCommand(checkemailSql, connection))
+                    {
+                        checkEmailCommand.Parameters.AddWithValue("@email", User.email);
+                        int emailExists = (int)checkEmailCommand.ExecuteScalar();
+
+                        if (emailExists > 0)
+                        {
+                            errorMessage = "Email already exists.";
+                            return Page();
+                        }
+                    }
+
+
+
+
+                    // บันทึกข้อมูลผู้ใช้ใหม่
+                    string sql = "INSERT INTO Users (role, email, username, password) VALUES (@role, @email, @username, @password)";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@role", User.role);
                         command.Parameters.AddWithValue("@email", User.email);
                         command.Parameters.AddWithValue("@username", User.username);
                         command.Parameters.AddWithValue("@password", User.password);
-                 
 
                         command.ExecuteNonQuery();
                     }
@@ -81,19 +108,15 @@ namespace MeowCompany.Pages
                 return Page();
             }
 
+            // ล้างข้อมูลหลังจากบันทึกสำเร็จ
             User.role = "";
             User.email = "";
             User.username = "";
             User.password = "";
             User.cfpassword = "";
-            successMessage = "Add user successfully";
+            successMessage = "Registered successfully!";
 
             return Page();
         }
     }
-   
 }
-
-
-
-      

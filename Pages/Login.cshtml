@@ -1,11 +1,10 @@
 ﻿@page
 @model MeowCompany.Pages.LoginModel
 @{
-
     ViewData["Title"] = "Login";
-    <link rel="stylesheet" href="css/site.css" asp-append-version="true" />
-   
 }
+
+<link rel="stylesheet" href="css/site.css" asp-append-version="true" />
 
 <div class="login-modal">
     <div class="modal-dialog">
@@ -14,39 +13,53 @@
                 <h5 class="modal-title">Sign in to Meow Company</h5>
             </div>
 
-             <form method="post">
+            @if (User.Identity?.IsAuthenticated ?? false)
+            {
+                <!-- ปุ่มออกจากระบบเมื่อผู้ใช้ล็อกอิน -->
+                <div class="modal-body text-center">
+                    <p>You are already signed in.</p>
+                    <form method="post" asp-page-handler="SignOut" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Log out</button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <!-- ฟอร์มสำหรับการเข้าสู่ระบบ -->
+                <form method="post">
 
-                <!--แสดง errorMessage-->
-                @if (Model.errorMessage.Length > 0)
-                {
-                    <div class="row d-flex justify-content-center mt-3 mb-0 mx-3">
-                        <div class="col-sm-12">
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <strong>@Model.errorMessage</strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <!--แสดง errorMessage-->
+                    @if (Model.errorMessage.Length > 0)
+                    {
+                        <div class="row d-flex justify-content-center mt-3 mb-0 mx-3">
+                            <div class="col-sm-12">
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>@Model.errorMessage</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
-                <!--ฟอร์ม input ให้กรอก username / password-->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" name="username" class="form-control" value=""/>
+                    }
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" class="form-control" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control" required />
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="Password" class="form-control" value=""/>
+                    <!-- ปุ่มสำหรับเข้าสู่ระบบ -->
+                    <div class="modal-footer">
+                        <button type="submit" class="loginbtn">Sign in</button>
                     </div>
-                </div>
-
-                <!--ปุ่ม Sign in-->
-                <div class="modal-footer">
-                    <button type="submit" class="loginbtn">Sign in</button>
-                </div>
-                <p class="register">Don't have any acoount? <a asp-area="" asp-page="/Register">Add user</a></p>
-            </form>
+                    <p class="register">Don't have any acoount? <a asp-area="" asp-page="/Register">Add user</a></p>
+                </form>
+            }
         </div>
     </div>
 </div>
