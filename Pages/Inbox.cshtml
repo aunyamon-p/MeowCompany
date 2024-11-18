@@ -52,9 +52,9 @@
                 <p class="message">@Model.selectedEmail.message</p>
                 <br>
                 <div class="message-actions">
-                    <button  class="backbtn"><a href="/Inbox" class="btn btn-secondary">Back</a></button>
+                    <button  class="backbtn"><a href="/Inbox">Back</a></button>
                     <form method="post" asp-page-handler="Delete" asp-route-id="@Model.selectedEmail.ID" onsubmit="return confirm('Are you sure to delete this email');">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="delete">Delete</button>
                     </form>
                 </div>
             </div>

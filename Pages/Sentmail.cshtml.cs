@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace MeowCompany.Pages
 {
@@ -15,6 +16,7 @@ namespace MeowCompany.Pages
 
         public class MailData
         {
+            public int ID { get; set; }
             public string date { get; set; }
             public string frommail { get; set; }
             public string tomail { get; set; }
@@ -23,14 +25,11 @@ namespace MeowCompany.Pages
             public bool IsRead { get; set; }
         }
 
-        public void OnGet(string subject = "")
+        public void OnGet(int id = 0)
         {
             string connectionString = "Server=tcp:meowgroup.database.windows.net,1433;Initial Catalog=MeowCompany;Persist Security Info=False;User ID=meow;Password=Meemee-12;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            string currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
 
-            // ดึง email ของผู้ใช้ที่ล็อกอิน
-            string currentUserEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
-
-            // ตรวจสอบว่าได้ค่า currentUserEmail หรือไม่
             if (string.IsNullOrEmpty(currentUserEmail))
             {
                 return;
@@ -40,8 +39,7 @@ namespace MeowCompany.Pages
             {
                 connection.Open();
 
-                // ดึงข้อมูลเฉพาะอีเมลที่ผู้ใช้ที่ล็อกอินเป็นคนส่ง
-                string sql = "SELECT date, frommail, tomail, subject, message, IsRead FROM Emails WHERE frommail = @currentUserEmail";
+                string sql = "SELECT date, frommail, tomail, subject, message, IsRead, ID FROM Emails WHERE frommail = @currentUserEmail";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@currentUserEmail", currentUserEmail);
@@ -56,21 +54,20 @@ namespace MeowCompany.Pages
                                 tomail = reader.GetString(2),
                                 subject = reader.GetString(3),
                                 message = reader.GetString(4),
-                                IsRead = !reader.IsDBNull(5) && reader.GetBoolean(5)
+                                IsRead = !reader.IsDBNull(5) && reader.GetBoolean(5),
+                                ID = reader.GetInt32(6)
                             });
                         }
                     }
                 }
 
-                // แสดงรายละเอียดเมื่อเลือกหัวข้อ
-                if (!string.IsNullOrEmpty(subject))
+                //แสดงรายละเอียด email ที่เลือก
+                if (id != 0)
                 {
-                    selectedSubject = subject;
-                    sql = "SELECT date, frommail, tomail, subject, message, IsRead FROM Emails WHERE subject = @subject AND frommail = @currentUserEmail";
+                    sql = "SELECT date, frommail, tomail, subject, message, IsRead FROM Emails WHERE ID = @id";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
-                        command.Parameters.AddWithValue("@subject", subject);
-                        command.Parameters.AddWithValue("@currentUserEmail", currentUserEmail);
+                        command.Parameters.AddWithValue("@id", id);
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             if (reader.Read())

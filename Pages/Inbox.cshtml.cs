@@ -51,7 +51,6 @@ namespace MeowCompany.Pages
 
                             string formattedDate = dateString;
 
-                            // Try parsing if it's a datetime type
                             if (!string.IsNullOrEmpty(dateString))
                             {
                                 DateTime dateValue;
@@ -75,7 +74,7 @@ namespace MeowCompany.Pages
                     }
                 }
 
-                // Handle selected email details
+                //แสดงรายละเอียด email เมื่อคลิกเลือก
                 if (!string.IsNullOrEmpty(subject))
                 {
                     selectedSubject = subject;
@@ -91,7 +90,7 @@ namespace MeowCompany.Pages
 
                                 string formattedDate = dateString;
 
-                                // Try parsing if it's a datetime type
+                       
                                 if (!string.IsNullOrEmpty(dateString))
                                 {
                                     DateTime dateValue;

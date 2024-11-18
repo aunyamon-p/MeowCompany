@@ -27,12 +27,11 @@
             @foreach (var email in Model.listEmails)
             {
                 <div class="inbox-content">
-
-                    <a href="?subject=@Uri.EscapeDataString(email.subject)" class="message-link">
+                    <a href="?id=@email.ID" class="message-link">
                         <div class="message">
                             <img src="img/profile.png" alt="User" class="avatar" />
                             <div class="message-content">
-                                <h3><strong>To : @email.tomail</strong> <span>@email.date</span> <span>@(email.IsRead ? "Read" : "Unread")</span></h3>
+                                <h3><strong>To: @email.tomail</strong> <span>@email.date</span> <span>@(email.IsRead ? "Read" : "Unread")</span></h3>
                                 <p class="subject">@email.subject</p>
                             </div>
                         </div>
@@ -54,8 +53,7 @@
                 <p class="message">@Model.selectedEmail.message</p>
                 <br>
                 <div class="message-actions">
-                    <button class="backbtn"><a href="/Sentmail" class="btn btn-secondary">Back</a></button>
-                    <!--<button class="btn btn-danger">Delete</button>-->
+                    <button class="backbtn"><a href="/Sentmail">Back</a></button>
                 </div>
             </div>
         }
