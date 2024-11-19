@@ -145,6 +145,5 @@ namespace MeowCompany.Pages
             // Refresh email list after deletion
             OnGet();
         }
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 namespace MeowCompany.Pages
 {
@@ -46,6 +47,12 @@ namespace MeowCompany.Pages
             if (User.password != User.cfpassword)
             {
                 errorMessage = "Passwords do not match.";
+                return Page();
+            }
+
+            if (!Regex.IsMatch(User.username, @"^[a-zA-Z0-9]+$"))
+            {
+                errorMessage = "Username must contain only letters and numbers, without spaces.";
                 return Page();
             }
 

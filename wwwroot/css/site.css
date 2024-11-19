@@ -1,6 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-
+﻿﻿@import url('https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 /*หน้า _Layout*/
 body {
     font-family: 'Prompt';
@@ -25,15 +23,15 @@ li {
     margin-left: 25px;
 }
 
-li.logo {
-    display: flex;
-    align-items: center;
-    margin-left: 0;
-}
+    li.logo {
+        display: flex;
+        align-items: center;
+        margin-left: 0;
+    }
 
-li.logo img {
-    margin-right: 10px;
-}
+        li.logo img {
+            margin-right: 10px;
+        }
 
 /*li.role {
     margin-left: auto;
@@ -49,9 +47,9 @@ a {
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
-}
+    a:hover {
+        text-decoration: underline;
+    }
 
 /*หน้า _Layout เมนูทางด้านซ้าย*/
 .left-btn {
@@ -61,11 +59,11 @@ a:hover {
     display: flex;
 }
 
-.left-btn a:hover {
-    text-decoration: none;
-    transform: scale(0.98);
-    transition: transform 0.3s ease;
-}
+    .left-btn a:hover {
+        text-decoration: none;
+        transform: scale(0.98);
+        transition: transform 0.3s ease;
+    }
 
 /*หน้า _Layout ปุ่มทางด้านขวา*/
 .right-btn {
@@ -75,7 +73,7 @@ a:hover {
     margin-right: 25px;
 }
 
-button.login{
+button.login {
     border: none;
     border-radius: 4px;
     background-color: #f0f04c;
@@ -86,15 +84,15 @@ button.login{
     color: #002649;
 }
 
-button.login a {
-    text-decoration: none;
-}
+    button.login a {
+        text-decoration: none;
+    }
 
-button.login:hover {
-    background-color: #e5e55b;
-    transform: scale(0.95);
-    transition: transform 0.3s ease;
-}
+    button.login:hover {
+        background-color: #e5e55b;
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+    }
 
 div.title {
     color: rgb(255, 255, 255);
@@ -168,7 +166,7 @@ p.meow {
     cursor: pointer;
 }
 
-.inbox-list h3:hover{
+.inbox-list h3:hover {
     color: red;
 }
 
@@ -182,6 +180,7 @@ p.meow {
 .message-content {
     font-size: 14px;
     color: #333;
+    font-family: Prompt;
 }
 
 .message-content h3 {
@@ -189,7 +188,6 @@ p.meow {
     align-items: center;
     font-size: 15px;
     color: #333;
-        
 }
 
 .message-content span {
@@ -205,9 +203,10 @@ p.meow {
     width: 60%;
     background-color: #f4f4f4;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: 'Prompt';
 }
 
-p.message {
+p.message_inbox {
     margin-left: 25px;
 }
 
@@ -231,7 +230,7 @@ p.message {
     margin-right: 15px;
 }
 
-.message-info p{
+.message-info p {
     font-size: 13px;
     margin-top: 21px;
 }
@@ -239,14 +238,15 @@ p.message {
 .message-actions {
     margin-left: 25px;
     display: flex;
+    margin-top: 26px;
 }
 
 /*ปุ่ม delete กับปุ่ม back*/
-.message-actions button{
+.message-actions button {
     padding: 8px 16px;
     margin-right: 15px;
     cursor: pointer;
-    border: none;  
+    border: none;
 }
 
 .message-actions a {
@@ -268,7 +268,6 @@ button.backbtn {
     border-radius: 4px;
     padding: 8px 16px;
 }
-
 
 
 /*หน้า Composemail*/
@@ -302,8 +301,7 @@ button.backbtn {
 .form-group input[type="email"],
 .form-group input[type="date"],
 .form-group input[type="text"],
-.form-group textarea
-{
+.form-group textarea {
     font-family: "prompt";
     width: 70%;
     padding: 8px;
@@ -312,7 +310,7 @@ button.backbtn {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    padding-right: 20px;   
+    padding-right: 20px;
 }
 
 .compose-form input[type="date"] {
@@ -395,7 +393,6 @@ textarea {
 }
 
 .modal-body {
-/*    padding: 20px;*/
     margin: 10px;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -404,7 +401,6 @@ textarea {
 
 #cfpassword {
     margin-top: 15px;
-
 }
 
 .form-group {
@@ -429,7 +425,7 @@ textarea {
     font-size: 14px;
 }
 
-input[type="password"]{
+input[type="password"] {
     padding: 8px 20px;
 }
 
@@ -492,15 +488,19 @@ div p.alert {
     padding-left: 25px;
 }
 
-p.register,p.login {
+p.register, p.login {
     font-size: 15px;
     text-align: center;
 }
 
-p.register a,p.login a{
+p.register a, p.login a {
     font-weight: bold;
     text-decoration: none;
 }
 
-
-
+.message_inbox {
+    max-height: 650px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word; 
+}

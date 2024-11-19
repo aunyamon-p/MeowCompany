@@ -39,7 +39,7 @@
             }
         </div>
 
-        <!--ดึงค่าจากตาราง emails มาแสดง-->
+        <!--แสดงรายละเอียด emails เมื่อกดเลือก-->
         @if (Model.selectedEmail != null)
         {
             <div class="message-detail">
@@ -49,8 +49,9 @@
                     <h3><strong>@Model.selectedEmail.frommail</strong></h3>
                     <p class="date">@Model.selectedEmail.date</p>
                 </div>
-                <p class="message">@Model.selectedEmail.message</p>
-                <br>
+                <div class="message-wrapper">
+                    <p class="message_inbox">@Html.Raw(Model.selectedEmail.message)</p>
+                </div>
                 <div class="message-actions">
                     <button  class="backbtn"><a href="/Inbox">Back</a></button>
                     <form method="post" asp-page-handler="Delete" asp-route-id="@Model.selectedEmail.ID" onsubmit="return confirm('Are you sure to delete this email');">

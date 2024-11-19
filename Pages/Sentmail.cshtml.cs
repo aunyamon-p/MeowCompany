@@ -72,13 +72,27 @@ namespace MeowCompany.Pages
                         {
                             if (reader.Read())
                             {
+                                string message = reader.GetString(4);
+
+                                List<string> chunks = new List<string>();
+
+                                int chunkSize = 88; 
+                                for (int i = 0; i < message.Length; i += chunkSize)
+                                {
+                                    string chunk = message.Substring(i, Math.Min(chunkSize, message.Length - i));
+                                    chunks.Add(chunk);
+                                }
+
+                                message = string.Join("<br />", chunks);
+
+
                                 selectedEmail = new MailData
                                 {
                                     date = reader.GetDateTime(0).ToString("dd/MM/yyyy"),
                                     frommail = reader.GetString(1),
                                     tomail = reader.GetString(2),
                                     subject = reader.GetString(3),
-                                    message = reader.GetString(4),
+                                    message = message,
                                     IsRead = reader.GetBoolean(5)
                                 };
                             }
@@ -87,5 +101,6 @@ namespace MeowCompany.Pages
                 }
             }
         }
+
     }
 }
